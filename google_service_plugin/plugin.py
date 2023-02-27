@@ -105,6 +105,7 @@ class GoogleServicePlugin(PluginFlow):
         fp = self.google_photo_service.download_media_item(media_item)
         filename = media_item.get('filename', '')
         item_type = media_item.get('mimeType', '')
+        url = media_item.get('baseUrl', '')
         json_data = to_flat_dict(media_item)
 
         # Store file
@@ -112,13 +113,13 @@ class GoogleServicePlugin(PluginFlow):
             with open(fp, 'rb') as file:
                 blob = file.read()
                 digest = get_digest(blob)
-                json_data['sha256'] = digest
                 is_uploaded = self.client.upload_file(blob)
+                json_data['sha256'] = digest
                 if not is_uploaded:
                     logger.error(f"[-] Failed to upload file into Pod. File name: {filename}")
                 os.remove(fp)
         except Exception as e:
-            logger.error(f"Failed to upload file. Error: {e}")
+            logger.error(f"[-] Failed to upload file. Error: {e}")
             return
 
         if item_type in setting.VIDEO_TYPES:

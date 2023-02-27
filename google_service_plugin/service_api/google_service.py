@@ -1,5 +1,7 @@
 import os
 import pickle
+import urllib
+import shutil
 import requests
 from datetime import datetime
 from loguru import logger
@@ -63,9 +65,9 @@ class GoogleService:
         scopes: List[str] = [],
     ) -> Credentials:
         creds = None
-        # if os.path.exists(token_fp):
-        #     with open(token_fp, 'rb') as token:
-        #         creds = pickle.load(token)
+        if os.path.exists(token_fp):
+            with open(token_fp, 'rb') as token:
+                creds = pickle.load(token)
 
         if not creds or not creds.valid:
             if creds and creds.expired and creds.refresh_token:
@@ -112,16 +114,18 @@ class GoogleService:
         cls,
         url: str,
         file_name: str,
+        chunk_size: int = 1024,
     ) -> Optional[str]:
         # logger.debug(f"[+] Downloading file: {file_name}")
         if not os.path.isdir(cls.file_cache_folder):
             os.mkdir(cls.file_cache_folder)
         
         try:
-            res = cls.request_session.get(url)
             full_fp = os.path.join(cls.file_cache_folder, file_name)
-            with open(full_fp, 'wb') as file:
-                file.write(res.content)
+            response = cls.request_session.get(url, stream=True)
+            with open(full_fp, 'wb') as f:
+                for data in response.iter_content(chunk_size):
+                    f.write(data)
             return full_fp
         except Exception as e:
             logger.error(f"Failed to download file - {file_name}. Error: {e}")
@@ -161,4 +165,3 @@ class GoogleService:
 
         logger.debug(f"Get latest time for service {self.service_name}. Time: {latest_time}")
         return latest_time
-        
