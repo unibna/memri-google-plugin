@@ -3,39 +3,6 @@ from typing import (
     Optional,
     Any
 )
-
-
-# class Account(Item):
-
-#     service: Optional[Any]
-#     identifier: Optional[Any]
-#     secret: Optional[Any]
-#     refreshToken: Optional[Any]
-#     code: Optional[Any]
-#     errorMessage: Optional[Any]
-    
-#     def __init__(self, service=None, identifier=None, secret=None, code=None, refreshToken=None, errorMessage=None, id=None, deleted=None): #e.g. username, password or access key, secret key etc.
-#         super(Account, self).__init__(id=id, deleted=deleted)
-#         self.service = service
-#         self.identifier = identifier
-#         self.secret = secret
-#         self.refreshToken = refreshToken
-#         self.code = code
-#         self.errorMessage = errorMessage
-        
-#     @classmethod
-#     def from_json(cls, json):
-#         id = json.get("id", None)
-#         deleted = json.get("deleted", None)
-#         service = json.get("service", None)
-#         identifier = json.get("identifier", None)
-#         secret = json.get("secret", None)
-#         code = json.get("code", None)
-#         refreshToken = json.get("refreshToken", None)
-#         errorMessage = json.get("errorMessage", None)
-
-#         res = cls(service=service, identifier=identifier, secret=secret, code=code, refreshToken=refreshToken, errorMessage=errorMessage, id=id, deleted=deleted)
-#         return res
     
 
 class Account(Item):

@@ -26,7 +26,6 @@ except:
     )
     logger.debug("Create new pod client")
 pod_client.add_to_schema(PluginRun, Account)
-
 gg_svc_plugin = GoogleServicePlugin(
     client=pod_client,
 )
