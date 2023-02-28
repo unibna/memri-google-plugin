@@ -12,8 +12,8 @@ from pydantic.dataclasses import dataclass
 
 @dataclass
 class PluginService:
-    GOOGLE_PHOTO = 'google_photo'
-    GOOGLE_DRIVE = 'google_drive'
+    GOOGLE_PHOTO = 'google-photo'
+    GOOGLE_DRIVE = 'google-drive'
 
 
 class Settings:

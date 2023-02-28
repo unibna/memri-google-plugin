@@ -19,6 +19,7 @@ from .utils import (
     setting, 
     get_digest, 
     to_flat_dict,
+    PluginService,
 )
 
 
@@ -56,14 +57,19 @@ class GoogleServicePlugin(PluginFlow):
         self.delay_time = 0.2 # prevent full connection pool
         self.last_sync_time = self.google_photo_service.get_latest_time()
 
-    def __del__(self):
-        for thread in self.threads:
-            thread.join()
+    # def __del__(self):
+    #     for thread in self.threads:
+    #         thread.join()
 
-    def run_producer(self):
-        t = Thread(target=self.google_photos_producer)
-        self.threads.append(t)
-        t.start()
+    def run_producer(self, service=PluginService.GOOGLE_PHOTO):
+        if service == PluginService.GOOGLE_PHOTO:
+            t = Thread(target=self.google_photos_producer)
+            self.threads.append(t)
+            t.start()
+        elif service == PluginService.GOOGLE_PHOTO:
+            print("Google Drive is not available.")
+        else:
+            print(f"Service #{service} is not supported.")
 
     def run_consumer(self):
         t = Thread(target=self.consumer.consume)
@@ -105,7 +111,6 @@ class GoogleServicePlugin(PluginFlow):
         fp = self.google_photo_service.download_media_item(media_item)
         filename = media_item.get('filename', '')
         item_type = media_item.get('mimeType', '')
-        url = media_item.get('baseUrl', '')
         json_data = to_flat_dict(media_item)
 
         # Store file
