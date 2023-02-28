@@ -1,3 +1,5 @@
+## About
+Before running plugin, you must get pod in your machine.
 
 ## Build & Run
 ### Pre-install
