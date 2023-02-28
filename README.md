@@ -1,5 +1,6 @@
 ## About
-Before running plugin, you must get pod in your machine.
+Before running plugin, you must get the memri POD in your machine.
+If not, follow the link: [https://gitlab.memri.io/memri/pod]
 
 ## Build & Run
 ### Pre-install
